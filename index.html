@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  input {
+    margin: 5px;
+    padding: 5px;
+  }
+  button {
+    margin: 5px;
+    padding: 6px 12px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #aaa;
+    padding: 8px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+    <h1>Student Marksheet App</h1>
+    <div id="app"></div>
+    <div id="display"></div>
+    <script>
+        var app = document.getElementById('app');
+        var display = document.getElementById('display')
+        var fill = []
+        var nameInput = document.createElement('input')
+         nameInput.placeholder = "Enter Student Name";
+
+ var rollInput = document.createElement('input');
+  rollInput.placeholder = "Enter Roll No";
+
+  var sub1 = document.createElement('input');
+  sub1.placeholder = "Subject 1 Marks";
+  sub1.type = "number";
+
+  var sub2 = document.createElement('input');
+  sub2.placeholder = "Subject 2 Marks";
+  sub2.type = "number";
+
+  var sub3 = document.createElement('input');
+  sub3.placeholder = "Subject 3 Marks";
+  sub3.type = "number";
+
+  var saveBtn = document.createElement('button');
+  saveBtn.innerText = "Save";
+
+  var showBtn = document.createElement('button');
+  showBtn.innerText = "Show All";
+
+app.appendChild(nameInput);
+  app.appendChild(rollInput);
+  app.appendChild(sub1);
+  app.appendChild(sub2);
+  app.appendChild(sub3);
+  app.appendChild(saveBtn);
+  app.appendChild(showBtn);
+
+   saveBtn.onclick = function() {
+    var name = nameInput.value;
+    var roll = rollInput.value;
+    var m1 = Number(sub1.value);
+    var m2 = Number(sub2.value);
+    var m3 = Number(sub3.value);
+
+    if (name == "" || roll == "" || sub1.value == "" || sub2.value == "" || sub3.value == "") {
+      alert("Please fill all fields!");
+      return;
+    }
+
+    var total = m1 + m2 + m3;
+    var per = (total / 300) * 100;
+
+    var student = {
+      name: name,
+      roll: roll,
+      sub1: m1,
+      sub2: m2,
+      sub3: m3,
+      total: total,
+      per: per.toFixed(2)
+    };
+
+    fill.push(student);
+
+    alert("Data Saved!");
+
+    nameInput.value = "";
+    rollInput.value = "";
+    sub1.value = "";
+    sub2.value = "";
+    sub3.value = "";
+  };
+
+
+   showBtn.onclick = function() {
+    if (fill.length == 0) {
+      display.innerHTML = "<p>No data saved yet.</p>";
+      return;
+    }
+
+    var html = `
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Roll No</th>
+          <th>Sub1</th>
+          <th>Sub2</th>
+          <th>Sub3</th>
+          <th>Total</th>
+          <th>Percentage</th>
+          <th>Action</th>
+        </tr>
+    `;
+
+    for (var i = 0; i < fill.length; i++) {
+      html += `
+        <tr>
+          <td>${fill[i].name}</td>
+          <td>${fill[i].roll}</td>
+          <td>${fill[i].sub1}</td>
+          <td>${fill[i].sub2}</td>
+          <td>${fill[i].sub3}</td>
+          <td>${fill[i].total}</td>
+          <td>${fill[i].per}%</td>
+        </tr>
+      `;
+    }
+
+    html += "</table>";
+    display.innerHTML = html;
+  };
+    </script>
+</body>
+</html>
